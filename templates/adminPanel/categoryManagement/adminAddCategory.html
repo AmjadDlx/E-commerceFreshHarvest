@@ -1,0 +1,61 @@
+{% extends 'adminPanel/adminBase.html' %}
+{% load static %}
+
+{% block content %}
+<div class="main-panel">
+    <div class="content-wrapper" >
+      <div class="">
+        <div class="page-header ">
+          <h2 class="page-title " style="margin-left: 4rem;">Categories</h2>
+          
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              
+              <li class="breadcrumb-item active" aria-current="page"></li>
+            </ol>
+          </nav>
+        </div>
+        {% include 'includes/alerts.html' %}
+<div class="container mt-3" style="min-height: 33rem;">
+    <h2 class="text-center text-white">Add Category</h2>
+    <form action="{% url 'adminAddCategory' %}" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+  
+      <div class="col form-group" id="category_name">
+          <label > Category Name</label><br>
+          {{form.category_name}}  
+      </div>
+      <div class="col form-group" id="slug">
+          <label> Slug</label><br>
+          {{form.slug}}  
+      </div>
+      <div class="col form-group">
+          <label > Description</label><br>
+          {{form.description}}  
+      </div>
+      <div class="col form-group">
+          <label > Image</label><br>
+          {{form.category_image}}
+          <div id="image-box" class="image-container"></div>
+
+      </div>
+      <div class="col form-group">
+         <a href=""> <input type="submit" name="submit" id="submit" class="btn btn-inverse-success" value="Save"/></a>
+      </div>
+    </form>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    const productNameInput = document.querySelector('#id_category_name');
+    const slugInput = document.querySelector('#id_slug');
+  
+    productNameInput.addEventListener('input', function() {
+      const category_name = this.value;
+      const slug = category_name.replace(/\s+/g, '-').toLowerCase();
+      slugInput.value = slug;
+  });
+  </script>
+  
+{% endblock content %}
+    
