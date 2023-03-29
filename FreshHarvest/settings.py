@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 
-
 import os
 import environ
 # Initialise environment variables
@@ -171,12 +170,12 @@ else:
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
     STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'adminPanel', 'static'),
-    os.path.join(BASE_DIR, 'ecommerce', 'static'),
-    os.path.join(BASE_DIR, 'accounts', 'static'),
-    os.path.join(BASE_DIR, 'pages', 'static'),
-    os.path.join(BASE_DIR, 'dashboard', 'static'),
-    os.path.join(BASE_DIR, 'cart', 'static'),
-    os.path.join(BASE_DIR, 'wishlist', 'static'),
+    # os.path.join(BASE_DIR, 'FreshHarvest', 'static'),
+    # os.path.join(BASE_DIR, 'accounts', 'static'),
+    # os.path.join(BASE_DIR, 'pages', 'static'),
+    # os.path.join(BASE_DIR, 'dashboard', 'static'),
+    # os.path.join(BASE_DIR, 'cart', 'static'),
+    # os.path.join(BASE_DIR, 'wishlist', 'static'),
 ]
 
 # Default primary key field type
