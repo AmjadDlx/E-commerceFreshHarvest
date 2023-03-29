@@ -199,7 +199,7 @@ if DEBUG == True:
     MEDIA_ROOT = BASE_DIR/'media'
 else:
     MEDIA_URL = '/media/'
-    MEDIA_ROOT = '/home/ubuntu/FreshHarvest/media'
+    # MEDIA_ROOT = '/home/ubuntu/FreshHarvest/media'
 
 # RZORPAY configuration
 RAZOR_KEY_ID = env('RAZOR_KEY_ID')
