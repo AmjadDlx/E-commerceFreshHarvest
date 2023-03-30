@@ -95,7 +95,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'FreshHarvest.wsgi.application'
+WSGI_APPLICATION ='FreshHarvest.wsgi.application'
 
 
 # DATABASES = {
