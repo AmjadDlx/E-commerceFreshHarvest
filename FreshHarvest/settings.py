@@ -165,7 +165,7 @@ USE_TZ = True
 if DEBUG == True:
     STATIC_URL = '/static/'
 else:
-    STATIC_URL = '/static/'
+    STATIC_URL = 'adminPanel/static/'
     STATIC_ROOT = '/home/ubuntu/e-commerce/static/'
 
 # Default primary key field type
