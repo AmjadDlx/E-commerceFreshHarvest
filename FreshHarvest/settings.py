@@ -171,7 +171,7 @@ else:
     STATIC_URL ='/static/'
     STATIC_ROOT ='/home/ubuntu/e-commerce/'
     STATICFILES_DIRS=[
-        'FreshHarvest/static/'
+        os.path.join(BASE_DIR, 'FreshHarvest', 'static'),
     ]
 
 # Default primary key field type
