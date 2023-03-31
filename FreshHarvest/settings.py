@@ -168,8 +168,8 @@ if DEBUG == True:
         'FreshHarvest/static/'
     ]                                                                     
 else:
-    STATIC_URL = 'static/'
-    STATIC_ROOT = '/home/ubuntu/e-commerce/'
+    STATIC_URL = '/static/'
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
     STATICFILES_DIRS=[
         os.path.join(BASE_DIR, 'FreshHarvest', 'static'),
     ]
