@@ -165,13 +165,13 @@ if DEBUG == True:
     STATIC_URL ='/static/'
     STATIC_ROOT =BASE_DIR/'static'
     STATICFILES_DIRS=[
-        '/FreshHarvest/static/'
+        'FreshHarvest/static/'
     ]                                                                     
 else:
     STATIC_URL ='/static/'
     STATIC_ROOT ='/home/ubuntu/e-commerce/'
     STATICFILES_DIRS=[
-        '/FreshHarvest/static/'
+        'FreshHarvest/static/'
     ]
 
 # Default primary key field type
@@ -195,7 +195,7 @@ if DEBUG == True:
     MEDIA_ROOT = BASE_DIR/'media'
 else:
     MEDIA_URL = '/media/'
-    # MEDIA_ROOT = '/home/ubuntu/FreshHarvest/media'
+    MEDIA_ROOT = '/home/ubuntu/FreshHarvest/media'
 
 # RZORPAY configuration
 RAZOR_KEY_ID = env('RAZOR_KEY_ID')
