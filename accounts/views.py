@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 import requests
 from django.core.paginator import Paginator
-
 from carts.models import Cart, CartItem
 from carts.views import _cart_id
 from orders.models import Order,OrderProduct
@@ -10,7 +9,8 @@ from .forms import RegistrationForm, UserAddressForm, UserForm
 from django.contrib import messages, auth
 from django.views.decorators.cache import never_cache
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
+
 # Verification email
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
@@ -19,9 +19,9 @@ from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMessage
 from django.contrib.auth import update_session_auth_hash
+
+
 # Create your views here.
-
-
 def register(request):
     if 'email' in request.session:
         return redirect('home')
@@ -70,6 +70,7 @@ def register(request):
 
     return render(request, 'customers/signup.html', context)
 
+
 def activate(request, uidb64, token):
     try:
         uid = urlsafe_base64_decode(uidb64).decode()
@@ -85,9 +86,6 @@ def activate(request, uidb64, token):
     else:
         messages.error(request, 'Invalid activation link')
         return redirect('signup')
-
-
-
 
 
 @never_cache
@@ -137,8 +135,6 @@ def login(request):
             except:
                 pass
 
-
-
             auth.login(request, user)      # login without otp
             url = request.META.get('HTTP_REFERER')
             try:
@@ -157,15 +153,14 @@ def login(request):
     return render(request, 'customers/login.html')
 
 
-
-
 @login_required(login_url='login')
 def logout(request):
-    # if 'email' in request.session:
-        # request.session.flush()
+    if 'email' in request.session:
+        request.session.flush()
     auth.logout(request)
     messages.success(request, "You are logged out.")
     return redirect('login')
+
 
 def edit_profile(request):
     useraddress = Address.objects.all().filter(user=request.user).first()
@@ -194,6 +189,7 @@ def edit_profile(request):
         #  full_name = str(user.first_name) + str(user.last_name)   
     return render(request, 'customers/edit_profile.html', context)
 
+
 def forgot_password(request):
     if request.method == 'POST':
         email = request.POST['email']
@@ -220,6 +216,7 @@ def forgot_password(request):
             return redirect('forgotPassword')
     return render(request, 'customers/forgot_password.html')
 
+
 def resetpassword_validate(request, uidb64, token):
     try:
         uid = urlsafe_base64_decode(uidb64).decode()
@@ -234,9 +231,6 @@ def resetpassword_validate(request, uidb64, token):
     else:
         messages.error(request, 'This link has been expired!')
         return redirect('login')
-
-
-
 
 
 @login_required(login_url='userLogin')
@@ -267,6 +261,7 @@ def add_address(request):
         }    
     return render(request,'customers/add_address.html',context)
 
+
 def reset_password(request):
     if request.method == 'POST':
         password = request.POST['password']
@@ -284,6 +279,7 @@ def reset_password(request):
             return redirect('reset_password')
     else:
         return render(request, 'customers/reset_password.html')
+
 
 @login_required
 def user_dashboard(request):
@@ -322,6 +318,7 @@ def change_password(request):
             return redirect('change_password')
     return render(request, 'customers/change_password.html')
 
+
 @login_required(login_url='login')
 def my_orders(request):
     all_orders = Order.objects.filter(user=request.user,is_ordered=True).order_by('-created_at')
@@ -336,6 +333,8 @@ def my_orders(request):
     }
     print(all_orders.count())
     return render(request,'customers/my_orders.html',context)
+
+
 @login_required(login_url='login')
 def order_details(request,order_number):
     order_details = OrderProduct.objects.filter(order__order_number=order_number)
@@ -349,7 +348,6 @@ def order_details(request,order_number):
         'order':order,
         'subtotal':subtotal    
     }
-
     return render(request,'customers/order_details.html',context)
 
 

@@ -8,19 +8,15 @@ from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
-from django.http import HttpResponse
-
-
 def _cart_id(request):
     cart = request.session.session_key
     if not cart:
         cart = request.session.create()
     return cart
 
+
 def add_cart(request, product_id):
     current_user = request.user
-    
-    
     product = Product.objects.get(id=product_id) #get the product
     #Delete from wishlist if exists
     try:
@@ -89,8 +85,6 @@ def add_cart(request, product_id):
                     product_variation.append(variation)
                 except:
                     pass
-
-
         try:
             cart = Cart.objects.get(cart_id=_cart_id(request)) # get the cart using the cart_id present in the session
         except Cart.DoesNotExist:
@@ -203,8 +197,6 @@ def cart(request, total=0, quantity=0, cart_items=None):
     total_amnt = total
 
     return render(request, 'shop/cart.html', context)
-
-
 
 
 @login_required(login_url = 'login')

@@ -10,6 +10,7 @@ class loginForm(forms.Form):
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control mb-3 mt-1 validate',}), max_length=100)
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control mt-1  validate',}), label="Password")
     
+
 class productForm(forms.ModelForm):
     class Meta:
          model = Product
@@ -37,6 +38,7 @@ class categoryForm(forms.ModelForm):
         for field  in self.fields:
             self.fields[field].widget.attrs['class'] = 'form-control'
             
+            
 class subCategoryForm(forms.ModelForm):
     class Meta:
          model = Sub_Category
@@ -48,6 +50,8 @@ class subCategoryForm(forms.ModelForm):
             self.fields[field].widget.attrs['class'] = 'form-control'
         self.fields['is_featured'].widget.attrs['type'] = 'checkbox'
         self.fields['is_featured'].widget.attrs['class'] = 'form-check-input'
+
+
 class userForm(forms.ModelForm):
     class Meta:
         model = Account
@@ -67,8 +71,11 @@ class userForm(forms.ModelForm):
         self.fields['is_active'].widget.attrs['type'] = 'checkbox'
         self.fields['is_staff'].widget.attrs['type'] = 'checkbox'
         self.fields['is_superadmin'].widget.attrs['type'] = 'checkbox'
+
+
 class dateInput(forms.DateInput):
     input_type = 'date'
+
 
 class couponForm(forms.ModelForm):
     class Meta:

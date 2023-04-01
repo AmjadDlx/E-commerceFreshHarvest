@@ -149,7 +149,6 @@ def adminDashboardMonthwise(request,month):
         'line_data'       : order_count_per_day,
         'bar_data'        : sales_per_day,
     }
-    
     return render(request,'adminPanel/adminDashboard.html',context)
 
 

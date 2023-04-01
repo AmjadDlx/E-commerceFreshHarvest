@@ -4,10 +4,10 @@ from category.models import Category, Sub_Category
 from accounts.models import Account
 from django.utils import timezone
 from timeago import format
-# Create your models here.
 
+
+# Create your models here.
 class Product(models.Model):
-  
   UNIT = (('Kg', 'Kg'),
           ('litre', 'litre'),
           ('pack', 'pack'),
@@ -35,7 +35,6 @@ class Product(models.Model):
     return reverse('product_details', args=[self.category.slug, self.sub_category.slug, self.slug])
   
  
-  
   def __str__(self):
     return self.product_name
   
@@ -50,7 +49,6 @@ class Product(models.Model):
         return category_offer
 
 
-
 class VariationManager(models.Manager):
   def weights(self):
     return super(VariationManager, self).filter(variation_category='weight', is_active=True)
@@ -58,6 +56,7 @@ class VariationManager(models.Manager):
 variation_category_choice =  (
     ('weight','weight'),
 )
+
 
 class Variation(models.Model):
   product = models.ForeignKey(Product, on_delete=models.CASCADE)
@@ -79,6 +78,7 @@ class Wishlist(models.Model):
   
   def __str__(self):
     return self.wishlist_id
+
 
 class WishlistItem(models.Model):
   user = models.ForeignKey(Account, on_delete=models.CASCADE, null=True)

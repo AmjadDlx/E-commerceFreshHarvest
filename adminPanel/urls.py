@@ -9,11 +9,6 @@ urlpatterns = [
     path('admin_messages',views.adminMessages,name='adminMessages'),
     path('delete_message/<int:id>',views.deleteMessage,name='deleteMessage'),
     path('reply_message',views.replyMessage,name='replyMessage'),
-    # path('admin_blog',views.admin_blog,name='admin_blog'),
-    # path('add_blog',views.add_blog,name='add_blog'),
-    # path('delete_blog/<int:id>',views.delete_blog,name='delete_blog'),
-    # path('edit_blog/<int:id>',views.edit_blog,name='edit_blog'),
-    # path('edit_blog_single/<int:id>',views.edit_blog_single,name='edit_blog_single'),
     path('admin_user_management',views.adminUserManagement,name='adminUserManagement'),
     path('<int:id>/edit_user_data/', views.editUserData, name='editUserData'),
     path('<int:id>/block_user/', views.blockUser, name='blockUser'),
@@ -42,7 +37,4 @@ urlpatterns = [
     path('admin_edit_coupon/<int:id>/',views.adminEditCoupon,name="adminEditCoupon"),
     path('admin_delete_coupon/<int:id>/',views.adminDeleteCoupon,name="adminDeleteCoupon"),
     path('admin_sales_data',views.adminSalesData,name='adminSalesData'),
-    # path('monthwise_sales/<int:id>',views.monthwise_sales,name='monthwise_sales'),
-    # path('yearwise_sales/<int:id>',views.yearwise_sales,name='yearwise_sales'),
-    
 ]

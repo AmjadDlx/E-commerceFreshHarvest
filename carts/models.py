@@ -2,9 +2,8 @@ from django.db import models
 from accounts.models import Account
 from shop.models import Product,Variation
 
+
 # Create your models here.
-
-
 class Cart(models.Model):
   cart_id = models.CharField(max_length=250, blank=True)
   date_added = models.DateField(auto_now_add=True)
@@ -12,6 +11,7 @@ class Cart(models.Model):
   def __str__(self):
     return self.cart_id
   
+
 class CartItem(models.Model):
   user = models.ForeignKey(Account, on_delete=models.CASCADE, null=True)
   product = models.ForeignKey(Product, on_delete=models.CASCADE)
@@ -22,7 +22,6 @@ class CartItem(models.Model):
   is_active = models.BooleanField(default=True)
   
   def sub_total(self):
-    
     return int(self.product.offer_price())*int(self.quantity)
   
   def __unicode__(self):

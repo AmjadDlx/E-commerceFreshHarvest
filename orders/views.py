@@ -1,18 +1,18 @@
 import json
-from accounts.models import Account
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from accounts.models import Address
-from django.contrib import messages, auth
+from django.contrib import messages
 import datetime
 from carts.models import CartItem
-from .models import Order, Address, Payment, OrderProduct, Coupon, UserCoupon
+from .models import Order, Address, Payment, OrderProduct, UserCoupon
 from shop.models import Product
 from django.http import JsonResponse
 from django.conf import settings
 import razorpay
-# Create your views here.                                                                                                                                                                                                                                                                                                                                                                          
 
+
+# Create your views here.                                                                                                                                                                                                                                                                                                                                                       
 @login_required(login_url='login')
 def delete_address(request,id):
     address=Address.objects.get(id = id)
@@ -25,6 +25,7 @@ def delete_address(request,id):
       messages.success(request,"Address Deleted")
       address.delete()
       return redirect('checkout')
+
 
 def coupon(request):
   if request.method == 'POST':
@@ -56,7 +57,7 @@ def coupon(request):
   return JsonResponse(response)
 
 
-
+client =razorpay.Client(auth=(settings.RAZOR_KEY_ID,settings.RAZOR_KEY_SECRET))
 
 
 def place_order(request, total=0, quantity=0):
@@ -191,15 +192,14 @@ def payments(request):
     #clear cart
     CartItem.objects.filter(user = request.user).delete()
     
-    
     #send order number and Transaction id to Web page using 
-      
     data = {
         'order_number': order.order_number,
         'transID':payment.payment_id
         }
     return JsonResponse(data)
   
+
 def payments_completed(request):
     order_number = request.GET.get('order_number')
     transID = request.GET.get('payment_id')
@@ -287,13 +287,18 @@ def cash_on_delivery(request,id):
 
 
 def cancel_order(request,id):
-    
-    order = Order.objects.get(order_number = id,user = request.user)
+    if request.user.is_superadmin:
+      order = Order.objects.get(order_number = id)
+    else:
+      order = Order.objects.get(order_number = id,user = request.user)
     order.status = "Cancelled"
     order.save()
     payment = Payment.objects.get(order_id = order.order_number)
     payment.delete()
-    return redirect('order_details', id)
+    if request.user.is_superadmin:
+      return redirect('orders')
+    else:
+      return redirect('order_details', id)
     
     
 def return_order(request, id):
@@ -308,10 +313,6 @@ def return_order(request, id):
   payment = Payment.objects.get(order_id = order.order_number)
   payment.delete()
   return redirect('order_details', id)
-
-
-
-client = razorpay.Client(auth=(settings.RAZOR_KEY_ID,settings.RAZOR_KEY_SECRET))
 
 def razorpay(request):
   
@@ -330,9 +331,8 @@ def razorpay(request):
     }
       }
   payment = client.order.create(data=DATA)
-  order_id = payment
   return JsonResponse({
     'payment':payment,
-    'order_id':order_id,
      'payment_method' : "RazorPay"
       })
+

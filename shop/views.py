@@ -1,9 +1,9 @@
 from django.shortcuts import get_object_or_404, redirect, render
-from carts.models import CartItem,Cart
+from carts.models import CartItem
 from carts.views import _cart_id
 from category.models import *
 from .models import *
-from django.contrib import messages, auth 
+from django.contrib import messages
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.db.models import Q
@@ -24,6 +24,8 @@ def home(request):
   }
   
   return render(request, 'home.html', context)
+
+
 def shop(request, category_slug=None, sub_category_slug=None):
   categories_shop= None
   subCategories_shop = None
@@ -68,7 +70,8 @@ def shop(request, category_slug=None, sub_category_slug=None):
     'off_products':off_products,
     'product_count':product_count
   }
-  return render(request, 'shop/shop.html', context)
+  return render(request, 'jaivashop/shop.html', context)
+
 
 def product_details(request, category_slug, sub_category_slug, product_slug):
   categories = Category.objects.all()
@@ -87,22 +90,24 @@ def product_details(request, category_slug, sub_category_slug, product_slug):
     "related_products":related_products,
     # "in_cart":in_cart,
   }
-  return render(request, 'shop/product_details.html', context)
+  return render(request, 'jaivashop/product_details.html', context)
 
-# def price_change(request):
-#   var_value = request.GET['var_value']
-#   pro_id = request.GET['pid']
-#   product = Product.objects.get(id=pro_id)
-#   price = product.offer_price()
-#   x = var_value.split()
-#   var_value = int(x[0])
-#   pro_price = price * var_value
-#   return JsonResponse(
-#           {'success': True,
-#            'pro_price':pro_price,
-#            },
-#           safe=False
-#         )
+
+def price_change(request):
+  var_value = request.GET['var_value']
+  pro_id = request.GET['pid']
+  product = Product.objects.get(id=pro_id)
+  price = product.offer_price()
+  x = var_value.split()
+  var_value = int(x[0])
+  pro_price = price * var_value
+  return JsonResponse(
+          {'success': True,
+           'pro_price':pro_price,
+           },
+          safe=False
+        )
+
 
 def search(request):
   if request.method == 'GET':
@@ -119,7 +124,7 @@ def search(request):
     'products':page_obj,
     'product_count':product_count,
   }
-  return render(request, 'shop/shop.html', context)
+  return render(request, 'jaivashop/shop.html', context)
 
 
 def _wishlist_id(request):
@@ -127,6 +132,7 @@ def _wishlist_id(request):
     if not wishlist:
         wishlist = request.session.create()
     return wishlist
+
 
 def add_wishlist(request,product_id):
   product = Product.objects.get(id=product_id)
@@ -167,7 +173,8 @@ def wishlist(request,wishlist_items=None):
         'items' : wishlist_items
     }
     
-    return render(request,'shop/wishlist.html',context)
+    return render(request,'jaivashop/wishlist.html',context)
+
 
 def remove_wishlist_item(request, product_id, wishlist_item_id):
     try:
@@ -198,7 +205,7 @@ def contact_us(request):
 				user_name=user_name,email=email,message=message
 			)
 			user_message.save()
-			messages.success(request,'Thank you for contacting Fresh Harvest, We will reply your message soon!')
+			messages.success(request,'Thank you for contacting Jaiva, We will reply your message soon!')
 			
 		else:
 			messages.error(request,'please fill the form correctly!')
