@@ -197,11 +197,11 @@ EMAIL_USE_TLS = True
 
 # media configuration
 if DEBUG == True:
-    MEDIA_URL = 'media/'
+    MEDIA_URL = '/media/'
     MEDIA_ROOT = BASE_DIR/'media'
 else:
     MEDIA_URL = '/media/'
-    MEDIA_ROOT = '/home/ubuntu/media'
+    MEDIA_ROOT = '/home/ubuntu/media/'
 
 # RZORPAY configuration
 RAZOR_KEY_ID = env('RAZOR_KEY_ID')
