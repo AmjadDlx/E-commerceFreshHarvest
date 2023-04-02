@@ -70,7 +70,7 @@ def shop(request, category_slug=None, sub_category_slug=None):
     'off_products':off_products,
     'product_count':product_count
   }
-  return render(request, 'jaivashop/shop.html', context)
+  return render(request, 'shop/shop.html', context)
 
 
 def product_details(request, category_slug, sub_category_slug, product_slug):
@@ -90,7 +90,7 @@ def product_details(request, category_slug, sub_category_slug, product_slug):
     "related_products":related_products,
     # "in_cart":in_cart,
   }
-  return render(request, 'jaivashop/product_details.html', context)
+  return render(request, 'shop/product_details.html', context)
 
 
 def price_change(request):
@@ -124,7 +124,7 @@ def search(request):
     'products':page_obj,
     'product_count':product_count,
   }
-  return render(request, 'jaivashop/shop.html', context)
+  return render(request, 'shop/shop.html', context)
 
 
 def _wishlist_id(request):
@@ -173,7 +173,7 @@ def wishlist(request,wishlist_items=None):
         'items' : wishlist_items
     }
     
-    return render(request,'jaivashop/wishlist.html',context)
+    return render(request,'shop/wishlist.html',context)
 
 
 def remove_wishlist_item(request, product_id, wishlist_item_id):
@@ -205,7 +205,7 @@ def contact_us(request):
 				user_name=user_name,email=email,message=message
 			)
 			user_message.save()
-			messages.success(request,'Thank you for contacting Jaiva, We will reply your message soon!')
+			messages.success(request,'Thank you for contacting FreshHarvest, We will reply your message soon!')
 			
 		else:
 			messages.error(request,'please fill the form correctly!')
