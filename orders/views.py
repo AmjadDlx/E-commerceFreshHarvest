@@ -5,7 +5,7 @@ from accounts.models import Address
 from django.contrib import messages
 import datetime
 from carts.models import CartItem
-from .models import Order, Address, Payment, OrderProduct, UserCoupon
+from .models import Order, Payment, OrderProduct, UserCoupon
 from shop.models import Product
 from django.http import JsonResponse
 from django.conf import settings
@@ -300,7 +300,7 @@ def cancel_order(request,id):
     else:
       return redirect('order_details', id)
     
-    
+
 def return_order(request, id):
   if request.method == 'POST':
     return_reason = request.POST['return_reason']
@@ -313,6 +313,7 @@ def return_order(request, id):
   payment = Payment.objects.get(order_id = order.order_number)
   payment.delete()
   return redirect('order_details', id)
+
 
 def razorpay(request):
   
