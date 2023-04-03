@@ -66,8 +66,75 @@
 .tooltip:hover .tooltiptext {
   visibility: visible;
 }
-      </style>
 
+
+.coupon {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 50px auto;
+    max-width: 600px;
+  }
+  .coupon h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .coupon ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .coupon li {
+    border-bottom: 1px dashed #ddd;
+    font-size: 18px;
+    line-height: 1.5;
+    padding: 10px 0;
+    position: relative;
+  }
+  .coupon li:last-child {
+    border-bottom: none;
+  }
+  .coupon li .code {
+    background-color: #eee;
+    border-radius: 5px;
+    color: #333;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 5px 10px;
+    position: relative;
+    text-align: center;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+  }
+  .coupon li .code:hover {
+    background-color: #ccc;
+  }
+  .coupon li .code::before {
+    content: 'Copied!';
+    display: none;
+    font-size: 14px;
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+  .coupon li .code.copied {
+    background-color: #33b5e5;
+  }
+  .coupon li .code.copied::before {
+    display: block;
+  }
+
+      </style>
     
 </head>
 <body style="background-color: rgb(255, 255, 255);">

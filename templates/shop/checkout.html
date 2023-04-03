@@ -133,6 +133,19 @@
         
                         
 
+            
+                                <div class="coupon">
+                                    <h1>Active Coupons</h1>
+                                    <ul id="coupon-list">
+                                      {% for coupon in active_coupons %}
+                                        <li><span class="code">{{ coupon.code }}</span> - <span class="discount">{{ coupon.discount }}</span>% off on orders above ₹<span class="min-value">{{ coupon.min_value }}</span></li>
+                                      {% endfor %}
+                                    </ul>
+                                </div>
+                                
+
+
+
                     </div>
                     <div class="col-lg-4 col-md-6">
                         <div class="checkout__order">
@@ -170,6 +183,7 @@
         </div>
     </div>
 </section>
+
 <!-- Checkout Section End -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
@@ -225,8 +239,26 @@
 }
 </script>
 
+{% comment %}  coupon  {% endcomment %}
+<script>
+    // Your JavaScript code here
+    const couponCodes = document.querySelectorAll('.code');
 
-
+    couponCodes.forEach((code) => {
+      code.addEventListener('click', () => {
+        const tempInput = document.createElement('input');
+        tempInput.value = code.innerText;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempInput);
+        code.classList.add('copied');
+        setTimeout(() => {
+          code.classList.remove('copied');
+        }, 3000);
+      });
+    });
+  </script>
     
 {% endblock content %}
     

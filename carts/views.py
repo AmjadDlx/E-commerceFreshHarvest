@@ -238,6 +238,10 @@ def checkout(request, total=0, quantity=0, cart_items=None):
 
 
   coupons = UserCoupon.objects.filter(user = request.user, used=False)
+
+  active_coupons = Coupon.objects.filter(active=True)
+# return render(request, 'coupons.html', {'active_coupons': active_coupons})
+
  
   
   context = {
@@ -249,5 +253,6 @@ def checkout(request, total=0, quantity=0, cart_items=None):
     'tax':tax,
     'grand_total':grand_total,
     'coupons':coupons,
+    'active_coupons':active_coupons,
   }
   return render(request, 'shop/checkout.html', context)
