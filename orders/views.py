@@ -8,9 +8,11 @@ import datetime
 from carts.models import CartItem
 from .models import Order, Payment, OrderProduct, Coupon, UserCoupon
 from shop.models import Product
-from django.http import JsonResponse
-from django.conf import settings
+from django.http import HttpResponse, JsonResponse
+# from django.conf import settings
+from FreshHarvest import settings
 import razorpay
+
 # Create your views here.                                                                                                                                                                                                                                                                                                                                                                          
 
 @login_required(login_url='login')
@@ -279,23 +281,133 @@ def cash_on_delivery(request,id):
           'order':order,
           'ordered_products':ordered_products,
           'payment':payment,
-          'subtotal':subtotal,
+          'subtotal':subtotal, 
              }
         return render(request,'orders/cod_success.html',context)
     except:
       return redirect('home')
 
 
-def cancel_order(request,id):
+# def cancel_order(request,id):
     
-    order = Order.objects.get(order_number = id,user = request.user)
-    order.status = "Cancelled"
-    order.save()
-    payment = Payment.objects.get(order_id = order.order_number)
-    payment.delete()
+#     order = Order.objects.get(order_number = id,user = request.user)
+#     order.status = "Cancelled"
+#     order.save()
+#     payment = Payment.objects.get(order_id = order.order_number)
+#     payment.delete()
 
-    return redirect('order_details', id)
+#     return redirect('order_details', id)
+
+import razorpay
+# client =razorpay.Client(auth=(settings.RAZOR_KEY_ID,settings.RAZOR_KEY_SECRET))
+
+# def cancel_order(request, id):
+#     # Retrieve the order and payment information
+#     order = Order.objects.get(order_number=id, user=request.user)
+#     payment = Payment.objects.get(order_id=order.order_number)
+#     payment_id = payment.payment_id
+#     refund_amount = payment.amount_paid*100
+#     # If the payment has already been refunded, return an error message
+#     if payment.status == "Cancelled":
+#         return HttpResponse("This payment has already been refunded.")
+
+#     # Refund the payment using the Razorpay API
+#     # client = razorpay.Client(auth=("YOUR_API_KEY", "YOUR_API_SECRET"))
+#     # refund_amount = payment.amount_paid*100 # Convert the amount to paise
+#     # refund_amount = refund_amount
+#     # print(refund_amount,"..............................................")
+#     # refund_data = {"payment_id": payment.payment_id, "amount": refund_amount}
+#     else:
+#       try:
+#          client.payment.refund(payment_id,{
+#                 "amount": refund_amount,
+#                 "speed": "optimum",
+#                 "receipt": order.order_number
+#                 })
+#       except Exception as e:
+#             messages.error(request, 'Failed to initiate refund: ' + str(e))
+
+#     # refund = client.payment.refund.create(data=refund_data)
+#     # print("refund.................................",refund)
+#     # Update the order status and refund status in the database
+#       order.status = "Cancelled"
+#       order.save()
+#     # payment.refund_id = refund["id"]
+#     # payment.status = refund["entity"]["status"]
+#       payment.save()
+
+#     return redirect("order_details", id)
+
+
+
+
+client = razorpay.Client(auth=(settings.RAZOR_KEY_ID,settings.RAZOR_KEY_SECRET))
+# def cancel_order(request, order_id):
+#    payment = Payment.objects.get(order_id=order_id, user=request.user)
+#    paymentId = payment.payment_id
+#    refund_amount = payment.amount_paid*100-8
+#    paymentMethod = payment.payment_method
+#    orderNumber = payment.order_id
+#    print(payment,paymentId,refund_amount,paymentMethod,'-------------------------payment----------------------------')
+
+#    if paymentMethod == 'RazorPay':
+#         try:
+#             client.payment.refund(paymentId,{
+#                 "amount": refund_amount,
+#                 "speed": "optimum",
+#                 "receipt": orderNumber
+#                 })
+#             Payment.status = 'Cancelled'
+
+#             order = Order.objects.get(order_number = order_id,user = request.user)
+#             order.status = "Cancelled"
+#             order.save()
+#             payment = Payment.objects.get(order_id = order.order_number)
+#             payment.status = 'Cancelled'
+#             payment.save()  # Call save() on the payment model instance
+#             payment.delete()
+
+
+#             print('------------order status after refund', Payment.status)
+#             Payment.save()
+#             return redirect('order_details',order_id)
+#         except Exception as e:
+#                 messages.error(request, 'Failed to initiate refund: ' + str(e))
+#                 return redirect('home')
+
     
+
+
+
+
+def cancel_order(request, order_id):
+    payment = Payment.objects.get(order_id=order_id, user=request.user)
+    paymentId = payment.payment_id
+    refund_amount = payment.amount_paid * 100
+    paymentMethod = payment.payment_method
+    orderNumber = payment.order_id
+
+    if paymentMethod == 'RazorPay':
+        try:
+            client.payment.refund(paymentId, {
+                "amount": refund_amount,
+                "speed": "optimum",
+                "receipt": orderNumber
+            })
+
+            payment.status = True  # Set status to True for successful cancellation
+            payment.save()  # Save the payment model instance
+
+            order = Order.objects.get(order_number=order_id, user=request.user)
+            order.status = "Cancelled"
+            order.save()
+
+            # Other code for deleting payment and redirecting
+            return redirect('order_details', order_id)
+        except Exception as e:
+            messages.error(request, 'Failed to initiate refund: ' + str(e))
+            return redirect('home')
+
 
 def return_order(request, id):
   if request.method == 'POST':
@@ -308,7 +420,7 @@ def return_order(request, id):
   order.save()
   payment = Payment.objects.get(order_id = order.order_number)
   payment.delete()
-  return redirect('order_details', id)
+  return redirect('order_details')
 
 def razorpay(request):
   

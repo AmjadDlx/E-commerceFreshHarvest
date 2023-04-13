@@ -18,6 +18,6 @@ urlpatterns = [
     path('delete_address/<int:id>',delete_address,name='delete_address'),
     path('my_orders/', views.my_orders, name='my_orders'),
     path('order_details/<int:order_number>', views.order_details, name='order_details'),
-    path("cancel_order/<int:id>/",cancel_order,name='cancel_order'),
+    path("cancel_order/<int:order_id>/",cancel_order,name='cancel_order'),
     path("return_order/<int:id>/", return_order, name='return_order'),
 ]
